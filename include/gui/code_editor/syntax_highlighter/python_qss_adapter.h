@@ -40,6 +40,8 @@ class python_qss_adapter : public QWidget
     Q_PROPERTY(QColor single_quoted_string_color READ single_quoted_string_color WRITE set_single_quoted_string_color)
     Q_PROPERTY(QColor double_quoted_string_color READ double_quoted_string_color WRITE set_double_quoted_string_color)
     Q_PROPERTY(QColor comment_color READ comment_color WRITE set_comment_color)
+    Q_PROPERTY(QColor comment_todo_color READ comment_todo_color WRITE set_comment_todo_color)
+    Q_PROPERTY(QColor comment_todoword_color READ comment_todoword_color WRITE set_comment_todoword_color)
 
 public:
     static python_qss_adapter* instance();
@@ -54,6 +56,8 @@ public:
     QColor single_quoted_string_color() const;
     QColor double_quoted_string_color() const;
     QColor comment_color() const;
+    QColor comment_todo_color() const;
+    QColor comment_todoword_color() const;
 
     void set_text_color(const QColor& color);
     void set_keyword_color(const QColor& color);
@@ -65,6 +69,8 @@ public:
     void set_single_quoted_string_color(const QColor& color);
     void set_double_quoted_string_color(const QColor& color);
     void set_comment_color(const QColor& color);
+    void set_comment_todo_color(const QColor& color);
+    void set_comment_todoword_color(const QColor& color);
 
     void repolish();
 
@@ -78,6 +84,8 @@ public:
     QTextCharFormat m_single_quoted_string_format;
     QTextCharFormat m_double_quoted_string_format;
     QTextCharFormat m_comment_format;
+    QTextCharFormat m_comment_todo_format;
+    QTextCharFormat m_comment_todoword_format;
 
 private:
     explicit python_qss_adapter(QWidget* parent = nullptr);
@@ -92,6 +100,8 @@ private:
     QColor m_single_quoted_string_color;
     QColor m_double_quoted_string_color;
     QColor m_comment_color;
+    QColor m_comment_todo_color;
+    QColor m_comment_todoword_color;
 };
 
 #endif    // PYTHON_QSS_ADAPTER_H

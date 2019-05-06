@@ -1,6 +1,7 @@
 #include "code_editor/syntax_highlighter/python_qss_adapter.h"
 
 #include <QStyle>
+#include <QFont>
 
 python_qss_adapter::python_qss_adapter(QWidget* parent) : QWidget(parent)
 {
@@ -69,6 +70,16 @@ QColor python_qss_adapter::comment_color() const
     return m_comment_color;
 }
 
+QColor python_qss_adapter::comment_todo_color() const
+{
+    return m_comment_todo_color;
+}
+
+QColor python_qss_adapter::comment_todoword_color() const
+{
+    return m_comment_todoword_color;
+}
+
 void python_qss_adapter::set_text_color(const QColor& color)
 {
     m_text_color = color;
@@ -119,6 +130,16 @@ void python_qss_adapter::set_comment_color(const QColor& color)
     m_comment_color = color;
 }
 
+void python_qss_adapter::set_comment_todo_color(const QColor& color)
+{
+    m_comment_todo_color = color;
+}
+
+void python_qss_adapter::set_comment_todoword_color(const QColor& color)
+{
+    m_comment_todoword_color = color;
+}
+
 void python_qss_adapter::repolish()
 {
     QStyle* s = style();
@@ -153,4 +174,11 @@ void python_qss_adapter::repolish()
 
     m_comment_format.setForeground(m_comment_color);
     m_comment_format.setFontItalic(false);
+
+    m_comment_todo_format.setForeground(m_comment_todo_color);
+    m_comment_todo_format.setFontItalic(false);
+
+    m_comment_todoword_format.setBackground(m_comment_todoword_color);
+    m_comment_todoword_format.setFontItalic(false);
+    m_comment_todoword_format.setFontWeight(QFont::Weight::Bold);
 }

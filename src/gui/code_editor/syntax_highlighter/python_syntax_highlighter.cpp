@@ -70,9 +70,21 @@ python_syntax_highlighter::python_syntax_highlighter(QTextDocument* parent)
     rule.format = python_qss_adapter::instance()->m_number_format;
     m_highlighting_rules.append(rule);
 
-    rule.pattern = QRegularExpression("#[^\\n]*");
+    // "TODO" and "FIXME" highlight
+
+    rule.pattern = QRegularExpression("#(?!\\s*(TODO|FIXME))[^\\n]*");
     rule.pattern.optimize();
     rule.format = python_qss_adapter::instance()->m_comment_format;
+    m_highlighting_rules.append(rule);
+
+    rule.pattern = QRegularExpression("#\\s*(TODO|FIXME)[^\\n]*");
+    rule.pattern.optimize();
+    rule.format = python_qss_adapter::instance()->m_comment_todo_format;
+    m_highlighting_rules.append(rule);
+
+    rule.pattern = QRegularExpression("(?<=[#\\s])(TODO|FIXME)(?=\\b)");
+    rule.pattern.optimize();
+    rule.format = python_qss_adapter::instance()->m_comment_todoword_format;
     m_highlighting_rules.append(rule);
 }
 

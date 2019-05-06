@@ -1229,6 +1229,8 @@ qproperty-number_color: #6897BB;
 qproperty-single_quoted_string_color: #A5C25C;
 qproperty-double_quoted_string_color: #A5C25C;
 qproperty-comment_color: #629755;
+qproperty-comment_todo_color: #ff6e00;
+qproperty-comment_todoword_color: #ff6e00;
 }
 
 vhdl_qss_adapter {
