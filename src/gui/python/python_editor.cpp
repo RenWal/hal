@@ -175,7 +175,7 @@ void python_code_editor::indent_selection(bool indent)
     }
     // calculate indent to use for all selected lines based on the amount of
     // spaces needed to align the first line to the next_indent 4-block
-    int constant_indent = next_indent(indent, n_spaces);
+    const int constant_indent = next_indent(indent, n_spaces);
 
     // if the cursor is in a word without a selection, show autocompletion menu
     // (skip this if we are un-indenting, meaning Shift+Tab has been pressed)
@@ -186,7 +186,7 @@ void python_code_editor::indent_selection(bool indent)
     }
 
     // (un)indent all selected lines
-    int size = selected_lines.size();
+    const int size = selected_lines.size();
     QString padding;
     if (indent)
     {
@@ -206,7 +206,7 @@ void python_code_editor::indent_selection(bool indent)
             QString current_line = selected_lines[i];
             // count how many spaces there really are so we don't cut off text
             int spaces = 0;
-            for(; spaces < constant_indent; spaces++)
+            while(spaces < constant_indent)
             {
                 if (current_line[spaces] != ' ')
                 {
