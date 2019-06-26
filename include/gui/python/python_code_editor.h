@@ -21,49 +21,39 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-#ifndef FILE_MANAGER_H
-#define FILE_MANAGER_H
+#ifndef PYTHON_CODE_EDITOR_H
+#define PYTHON_CODE_EDITOR_H
 
-#include "core/program_arguments.h"
+#include "code_editor/code_editor.h"
 
-#include <QObject>
-
-class QFileSystemWatcher;
-
-class file_manager : public QObject
+class python_code_editor : public code_editor
 {
     Q_OBJECT
-
 public:
-    static file_manager* get_instance();
+    python_code_editor(QWidget* parent = nullptr);
 
-    void handle_program_arguments(const program_arguments& args);
-
-    bool is_document_open();
-    QString file_name() const;
-
-Q_SIGNALS:
-    void file_opened(const QString& file_name);
-    void file_changed(const QString& path);
-    void file_directory_changed(const QString& path);
-    void file_closed();
-
-public Q_SLOTS:
-    void open_file(const QString& file_name);
-    void close_file();
-
-private Q_SLOTS:
-    void handle_file_changed(const QString& path);
-    void handle_directory_changed(const QString& path);
+    QString get_file_name();
+    void set_file_name(const QString name);
 
 private:
-    file_manager(QObject* parent = nullptr);
-    void update_recent_files(const QString& file);
-    void display_error_message(QString error_message);
+    void keyPressEvent(QKeyEvent* e) Q_DECL_OVERRIDE;
+    void handle_tab_key_pressed();
+    void handle_shift_tab_key_pressed();
+    void handle_return_key_pressed();
+    void handle_backspace_key_pressed(QKeyEvent* e);
+    void handle_delete_key_pressed(QKeyEvent* e);
+    void handle_insert_key_pressed();
+
+    void handle_redo_requested();
+
+    void indent_selection(bool indentUnindent);
+    int next_indent(bool indentUnindent, int current_indent);
+
+    void handle_autocomplete();
+    void perform_code_completion(std::tuple<std::string, std::string> completion);
 
     QString m_file_name;
-    QFileSystemWatcher* m_file_watcher;
-    bool m_file_open;
+    QString m_text_state;
 };
 
-#endif    // FILE_MANAGER_H
+#endif //PYTHON_CODE_EDITOR_H

@@ -30,6 +30,7 @@
 
 hal_content_manager::hal_content_manager(file_manager* file_manager, main_window* parent) : QObject(parent), m_main_window(parent), m_file_manager(file_manager)
 {
+    m_python_widget = new python_editor();
 }
 
 hal_content_manager::~hal_content_manager()
@@ -120,7 +121,7 @@ void hal_content_manager::handle_open_document(const QString& file_name)
     QString tmp("HAL - " + QString::fromStdString(hal::path(file_name.toStdString()).stem().string()));
     m_main_window->setWindowTitle(tmp);
 
-    m_python_widget = new python_editor();
+    //m_python_widget = new python_editor();
     m_main_window->add_content(m_python_widget, 3, content_anchor::right);
     m_python_widget->open();
 
@@ -161,18 +162,14 @@ void hal_content_manager::handle_relayout_button_clicked()
 
 bool hal_content_manager::has_python_editor_unsaved_changes()
 {
-    return false;
-
-    /*
     if(m_file_manager->is_document_open())
         return m_python_widget->has_unsaved_tabs();
     else
         return false;
-    */
 }
 
 bool hal_content_manager::has_netlist_unsaved_changes()
-{   
+{
     if(m_file_manager->is_document_open())
         return m_netlist_watcher->has_netlist_unsaved_changes();
     else
@@ -187,7 +184,8 @@ void hal_content_manager::mark_netlist_saved()
 
 QStringList hal_content_manager::get_names_of_unsaved_python_tabs()
 {
-    QStringList tab_names = {"GraphAlgo.py", "new 3", "SBoxFinderv1.py"};
-    return tab_names;
-    //return m_pythond_widget->get_names_of_unsaved_tabs();
+    if(m_file_manager->is_document_open())
+        return m_python_widget->get_names_of_unsaved_tabs();
+    else
+        return QStringList();
 }
